@@ -1,0 +1,70 @@
+Auto Reply ChatBot
+
+
+Modules Required----
+pyautogui ---- Used to control mouse coordinates and drag snd select everything
+pyperclip ---- Used to access the clipboard for copied items
+openai
+
+
+
+
+
+Use of pyautogui-----
+while True:
+   a = pyautogui.position()
+   print(a) 
+#It gives us the coordinates of the mouse
+
+Copying a text and printing it----
+
+pyautogui.click(___ , ____) #Give coordinates in blank
+time.sleep(1) ---- Waits 1 second to ensure that the click is done correctly
+
+pyautogui.moveTo(1003,237)
+pyautogui.dragTo(____,____,duration = 1.0,button = 'left') ----Dragging for 1 second
+pyautogui.hotkey('ctrl','c') ---- Copies
+time.sleep(1)
+
+text = pyperclip.paste() ----Retrieve the text from clipboard
+print(text)
+
+
+Now we have to make Open Ai API ----- to use AI to generate auto message
+To do this----
+
+First create API key from website
+Then----
+
+from openai import OpenAI
+client = OpenAI(api-key="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")
+#Making API request
+
+completion = client.chat.completions.create(
+  model="gpt-4o-mini",
+  messages=[
+    {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
+    {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
+  ]
+)
+
+#First we have to define the role of the chat AI
+#Then we have to give the question or content
+
+print(completion.choices[0].message) #It prints AI answer
+
+
+Now we have to take the AI generated message and paste it to the chat and press Enter
+
+pyautogui.click(____,____) # Click at the chat
+pyperclip.copy(text) #Copy AI generated text
+time.sleep(1)
+
+pyautogui.hotkey('ctrl'+'v')
+time.sleep(1)
+pyautogui.press('enter')
+
+
+Now one constraint:
+We must produce a response only when the message copied is of the recipient....So we have to check for it
+.........
